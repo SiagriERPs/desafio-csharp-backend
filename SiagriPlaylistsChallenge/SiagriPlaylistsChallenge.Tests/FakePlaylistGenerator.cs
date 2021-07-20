@@ -30,15 +30,33 @@ namespace SiagriPlaylistsChallenge.Tests
             Genre = "Party",
 
             },
-             new Music {
+            new Music {
             Name = "Lithium",
             Artist = "Nirvana",
             Genre = "Rock",
 
             },
-               new Music {
+            new Music {
             Name = "Bad Romance",
             Artist = "Lady Gaga",
+            Genre = "Pop",
+
+            },
+            new Music {
+            Name = "Paparazi",
+            Artist = "Lady Gaga",
+            Genre = "Pop",
+
+            },
+            new Music {
+            Name = "Shallow",
+            Artist = "Lady Gaga",
+            Genre = "Pop",
+
+            },
+            new Music {
+            Name = "Smooth Criminal",
+            Artist = "Michael Jackson",
             Genre = "Pop",
 
             },

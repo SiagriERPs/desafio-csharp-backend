@@ -11,7 +11,7 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
     public class Playlist : Entity<PlaylistId>
     {
         public PlaylistId Id { get; private set; }
-        PlaylistMusics<Music> Musics { get; set; }
+        public PlaylistMusics<Music> Musics { get; private set; }
 
         public PlaylistState State { get; private set; }
 
