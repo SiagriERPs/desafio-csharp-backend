@@ -9,12 +9,12 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
     public class Playlist
     {
         public PlaylistId Id { get; set; }
-        PlaylistMusics<string> Musics { get; set; }
+        PlaylistMusics<Music> Musics { get; set; }
 
 
         public object WeatherData { get; set; }
 
-        public Playlist(PlaylistId id, PlaylistMusics<string> musics, object weatherData)
+        public Playlist(PlaylistId id, PlaylistMusics<Music> musics, object weatherData)
         {
             Id = id;
             Musics = musics;
