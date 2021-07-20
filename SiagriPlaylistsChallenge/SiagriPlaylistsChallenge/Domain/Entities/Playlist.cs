@@ -12,6 +12,16 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
 
         public string City { get; set; }
 
+        public object WeatherData { get; set; }
+
+        public Playlist(Guid Id, List<string> musics, string city, object weatherData)
+        {
+            Id = Id;
+            Musics = musics;
+            City = city;
+            weatherData = WeatherData;
+        }
+
 
 
         public enum PlaylistState
