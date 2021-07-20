@@ -4,7 +4,7 @@ using System;
 
 namespace SiagriPlaylistsChallenge.Domain.ValueObjects
 {
-    public class PlaylistId : ValueObject<PlaylistId>
+    public class PlaylistId : IEquatable<PlaylistId>
     {
         private Guid Value { get; set; }
 
@@ -18,5 +18,25 @@ namespace SiagriPlaylistsChallenge.Domain.ValueObjects
 
         public static implicit operator PlaylistId(string value)
             => new PlaylistId(Guid.Parse(value));
+
+        public bool Equals(PlaylistId other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Value.Equals(other.Value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((PlaylistId)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }

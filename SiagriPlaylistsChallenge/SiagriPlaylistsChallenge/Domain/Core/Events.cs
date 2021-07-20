@@ -26,7 +26,7 @@ namespace SiagriPlaylistsChallenge.Domain.Core
             public List<string> Musics { get; set; }
         }
 
-        public class PlaylistReadyToBeShonw
+        public class PlaylistReadyToBeShown
         {
             public Guid Id { get; set; }
         }
