@@ -12,13 +12,13 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
         PlaylistMusics<Music> Musics { get; set; }
 
 
-        public object WeatherData { get; set; }
+     
 
         public Playlist(PlaylistId id, PlaylistMusics<Music> musics, object weatherData)
         {
             Id = id;
             Musics = musics;
-            weatherData = WeatherData;
+        
         }
 
 

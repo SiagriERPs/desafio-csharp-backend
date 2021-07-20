@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace SiagriPlaylistsChallenge.Domain.ValueObjects
 {
+    /// <summary>
+    /// The main domain logic for the whole app architecture commes from this 
+    /// object and because of that, most of the domain logic is self contain within
+    /// this V.O
+    /// </summary>
+    /// <summary>
+    /// Aqui é a lógica principal do serviço
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PlaylistMusics<T> : ValueObject<PlaylistMusics<T>>
     {
         public List<T> Value { get; set; }
@@ -14,8 +23,8 @@ namespace SiagriPlaylistsChallenge.Domain.ValueObjects
         public IWeatherFinder<double> WeatherFinder { get; set; }
 
         /// <summary>
-        /// Dentro do V.O decidi deixar o K como double, pois sabemos que 
-        /// o parametro para achar a playlist vai ser um valor de temperatura
+        /// Dentro do V.O decidi deixar o K como string, pois sabemos que 
+        /// o parametro para achar a playlist vai ser um genero string
         /// </summary>
         public IPlaylistGenerator<T, string> Generator { get; }
 
