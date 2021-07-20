@@ -12,6 +12,8 @@ namespace SiagriPlaylistsChallenge.Domain.ValueObjects
         {
             if (value == default)
                 throw new ArgumentNullException(nameof(value), "Playlist Id cannot be empty");
+
+            Value = value;
         }
 
         public static implicit operator Guid(PlaylistId self) => self.Value;
