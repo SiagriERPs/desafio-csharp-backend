@@ -30,6 +30,12 @@ namespace SiagriPlaylistsChallenge.Framework.Core
 
         protected abstract void When(object @event);
 
+
+        /// <summary>
+        /// This is a very handy property for managing state changes
+        /// and is very handy while debuging
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<object> GetChanges() => _events.AsEnumerable();
 
         public void ClearChanges() => _events.Clear();
