@@ -9,17 +9,15 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
     public class Playlist
     {
         public PlaylistId Id { get; set; }
-        public List<string> Musics { get; set; }
+        PlaylistMusics<string> Musics { get; set; }
 
-        public string City { get; set; }
 
         public object WeatherData { get; set; }
 
-        public Playlist(Guid Id, List<string> musics, string city, object weatherData)
+        public Playlist(PlaylistId id, PlaylistMusics<string> musics, object weatherData)
         {
-            Id = Id;
+            Id = id;
             Musics = musics;
-            City = city;
             weatherData = WeatherData;
         }
 

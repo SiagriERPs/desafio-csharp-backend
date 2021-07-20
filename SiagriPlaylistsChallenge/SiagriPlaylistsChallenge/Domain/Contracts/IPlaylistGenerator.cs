@@ -14,6 +14,6 @@ namespace SiagriPlaylistsChallenge.Domain.Contracts
     /// <typeparam name="V">Playlist `value` input parameter for generating the musics</typeparam>
     public interface IPlaylistGenerator<T, V>
     {
-        T GetPlaylistMusics(V parameter);
+        List<T> GetPlaylistMusics(V parameter);
     }
 }
