@@ -14,18 +14,18 @@ namespace SiagriPlaylistsChallenge.Tests
                 new Temperature
                 {
                     City = "Goiânia",
-                    Latitude =  -16.67m,
-                    Longitute = -49.25m,
-                    Value = 30.2m,
+                    Latitude =  -16.67,
+                    Longitute = -49.25,
+                    Value = 30.2,
                     Valid = true,
 
                 },
                 new Temperature
                 {
                     City = "Nova Crixás",
-                    Latitude =  -14.10m,
-                    Longitute = -50.35m,
-                    Value = 60.2m,
+                    Latitude =  -14.10,
+                    Longitute = -50.35,
+                    Value = 60.2,
                     Valid = true,
 
                 },
