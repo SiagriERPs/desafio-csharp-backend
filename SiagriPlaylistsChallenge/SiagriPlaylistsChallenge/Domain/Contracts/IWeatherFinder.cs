@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace SiagriPlaylistsChallenge.Domain.Contracts
 {
-    public class _
+    public interface IWeatherFinder<T>
     {
+        T GetWeatherData(string cityName);
+
+        T GetWeatherData(double latitude, double longitude);
     }
 }
