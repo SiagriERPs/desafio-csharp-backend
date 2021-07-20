@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+
+namespace SiagriPlaylistsChallenge.Framework.Core
+{
+    /// <summary>
+    /// This giant class is a base object with some helpful parameter for creating value
+    /// objects with some useful properties from C# base language.
+    /// </summary>
+    /// <summary>
+    /// Essa classe é uma classe base com algumas propriedades e poderes uteis da linguagem
+    /// C# para efetuar a criação de V.Os, de forma que garantem confiabilidade e robustez ao código
+    /// O uso de records e algumas propriedades novas da linguagem poderia suprir a necessidade desta classe
+    /// usando de recursos mais modernos, porém talvez mais dificeis de ler para quem usa versões antigas.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class ValueObject<T> where T : ValueObject<T>
+    {
+
+        private static readonly Member[] Members = GetMembers().ToArray();
+
+        public override bool Equals(object other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            var members = Members;
+
+            return other.GetType() == typeof(T) && Members.All(m =>
+            {
+                var otherValue = m.GetValue(other);
+                var thisValue = m.GetValue(this);
+                return m.IsNonStringEnumerable
+                    ? GetEnumerableValues(otherValue).SequenceEqual(GetEnumerableValues(thisValue))
+                    : (otherValue?.Equals(thisValue) ?? thisValue == null);
+            });
+        }
+
+        public override int GetHashCode() =>
+            CombineHashCodes(
+                Members.Select(m => m.IsNonStringEnumerable
+                    ? CombineHashCodes(GetEnumerableValues(m.GetValue(this)))
+                    : m.GetValue(this)));
+
+        public static bool operator ==(ValueObject<T> left, ValueObject<T> right) => Equals(left, right);
+
+        public static bool operator !=(ValueObject<T> left, ValueObject<T> right) => !Equals(left, right);
+
+        public override string ToString()
+        {
+            if (Members.Length == 1)
+            {
+                var m = Members[0];
+                var value = m.GetValue(this);
+                return m.IsNonStringEnumerable
+                    ? $"{string.Join("|", GetEnumerableValues(value))}"
+                    : value.ToString();
+            }
+
+            var values = Members.Select(m =>
+            {
+                var value = m.GetValue(this);
+                return m.IsNonStringEnumerable
+                    ? $"{m.Name}:{string.Join("|", GetEnumerableValues(value))}"
+                    : m.Type != typeof(string)
+                        ? $"{m.Name}:{value}"
+                        : value == null
+                            ? $"{m.Name}:null"
+                            : $"{m.Name}:\"{value}\"";
+            });
+            return $"{typeof(T).Name}[{string.Join("|", values)}]";
+        }
+
+        private static IEnumerable<Member> GetMembers()
+        {
+            var t = typeof(T);
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;
+            while (t != typeof(object))
+            {
+                if (t == null) continue;
+                foreach (var p in t.GetProperties(flags)) yield return new Member(p);
+                foreach (var f in t.GetFields(flags)) yield return new Member(f);
+                t = t.BaseType;
+            }
+        }
+
+        private static IEnumerable<object> GetEnumerableValues(object obj)
+        {
+            var enumerator = ((IEnumerable)obj).GetEnumerator();
+            while (enumerator.MoveNext()) yield return enumerator.Current;
+        }
+
+        private static int CombineHashCodes(IEnumerable<object> objs)
+        {
+            unchecked
+            {
+                return objs.Aggregate(17, (current, obj) => current * 59 + (obj?.GetHashCode() ?? 0));
+            }
+        }
+
+        private struct Member
+        {
+            public readonly string Name;
+            public readonly Func<object, object> GetValue;
+            public readonly bool IsNonStringEnumerable;
+            public readonly Type Type;
+
+            public Member(MemberInfo info)
+            {
+                switch (info)
+                {
+                    case FieldInfo field:
+                        Name = field.Name;
+                        GetValue = obj => field.GetValue(obj);
+                        IsNonStringEnumerable = typeof(IEnumerable).IsAssignableFrom(field.FieldType) &&
+                                                field.FieldType != typeof(string);
+                        Type = field.FieldType;
+                        break;
+                    case PropertyInfo prop:
+                        Name = prop.Name;
+                        GetValue = obj => prop.GetValue(obj);
+                        IsNonStringEnumerable = typeof(IEnumerable).IsAssignableFrom(prop.PropertyType) &&
+                                                prop.PropertyType != typeof(string);
+                        Type = prop.PropertyType;
+                        break;
+                    default:
+                        throw new ArgumentException("Member is not a field or property?!", info.Name);
+                }
+            }
+        }
+    }
+}
