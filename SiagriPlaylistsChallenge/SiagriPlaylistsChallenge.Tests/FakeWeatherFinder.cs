@@ -1,4 +1,5 @@
-﻿using SiagriPlaylistsChallenge.Domain.Contracts;
+﻿
+using SiagriPlaylistsChallenge.Domain.Contracts;
 using SiagriPlaylistsChallenge.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
