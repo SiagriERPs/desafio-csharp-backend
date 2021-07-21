@@ -1,24 +1,32 @@
 ﻿using SiagriPlaylistsChallenge.Domain.Core;
 using SiagriPlaylistsChallenge.Domain.ValueObjects;
 using SiagriPlaylistsChallenge.Framework.Core;
+using SiagriPlaylistsChallenge.Infrastructure.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
+
 namespace SiagriPlaylistsChallenge.Domain.Entities
 {
+    /// <summary>
+    /// Not used in the final project, but
+    /// it in a real application I would explore this type of implementation
+    /// for persistence on a DB. And is very easy to mantain
+    /// </summary>
     public class Playlist : Entity<PlaylistId>
     {
         public PlaylistId Id { get; private set; }
-        public PlaylistMusics<Music> Musics { get; private set; }
+        public PlaylistMusics Musics { get; private set; }
 
         public PlaylistState State { get; private set; }
 
+       
 
-
-
-        public Playlist(PlaylistId id, PlaylistMusics<Music> musics, object weatherData)
+        public Playlist(PlaylistId id, PlaylistMusics musics)
         {
             Id = id;
             Musics = musics;
@@ -31,11 +39,11 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
            });
 
 
-        public void UpdateMusics(PlaylistMusics<Music> musics) =>
+        public void UpdateMusics(PlaylistDTO musics) =>
             Apply(new Events.PlaylistMusicsUpdated
             {
                 Id = Id,
-                Musics = convertToStringList(musics.Value)
+             
             });
 
         public void ResquestPlaylist() =>
@@ -56,7 +64,7 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
                     State = PlaylistState.Creating;
                     break;
                 case Events.PlaylistMusicsUpdated e:
-                    Musics = new PlaylistMusics<Music>(ConvertToMusicList(e.Musics));
+                    
                     break;
                 case Events.PlaylistReadyToBeShown _:
                     State = PlaylistState.Ready;
@@ -64,12 +72,12 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
             }
         }
 
-        public static List<Music> ConvertToMusicList(List<string> list)
+        public static List<ValueObjects.Music> ConvertToMusicList(List<string> list)
         {
-            List<Music> parsedList = new List<Music>() { };
+            List<ValueObjects.Music> parsedList = new List<ValueObjects.Music>() { };
             foreach (string music in list)
             {
-                parsedList.Add(new Music { Name = music });
+                parsedList.Add(new ValueObjects.Music { Name = music });
             }
 
             return parsedList;
@@ -83,10 +91,10 @@ namespace SiagriPlaylistsChallenge.Domain.Entities
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static List<string> convertToStringList(List<Music> list)
+        public static List<string> convertToStringList(List<ValueObjects.Music> list)
         {
             List<string> parsedList = new List<string>() { };
-            foreach(Music music in list)
+            foreach(ValueObjects.Music music in list)
             {
                 parsedList.Add(music.Name);
             }

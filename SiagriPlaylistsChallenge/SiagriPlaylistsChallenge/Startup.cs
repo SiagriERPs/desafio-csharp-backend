@@ -1,16 +1,20 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Http;
 using Microsoft.OpenApi.Models;
-using System;
+using SiagriPlaylistsChallenge.Domain.Contracts;
+using SiagriPlaylistsChallenge.Infrastructure.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+
 
 namespace SiagriPlaylistsChallenge
 {
@@ -27,6 +31,8 @@ namespace SiagriPlaylistsChallenge
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddHttpClient<IWeatherFinder, WeatherFinder>();
+            services.AddHttpClient<IPlaylistGenerator, PlaylistGenerator>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

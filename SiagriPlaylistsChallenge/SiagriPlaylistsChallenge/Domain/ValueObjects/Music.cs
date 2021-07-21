@@ -1,15 +1,14 @@
-﻿using SiagriPlaylistsChallenge.Framework.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using SiagriPlaylistsChallenge.Framework.Core;
+
 
 namespace SiagriPlaylistsChallenge.Domain.ValueObjects
 {
     public class Music : ValueObject<Music>
     {
-        public string Name;
-        public string Genre;
-        public string Artist;
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        public string Genre { get; set; }
+        public string Artist { get; set; }
     }
 }

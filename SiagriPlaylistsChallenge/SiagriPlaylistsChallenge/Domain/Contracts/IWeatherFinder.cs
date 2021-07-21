@@ -1,14 +1,15 @@
-﻿using System;
+﻿using SiagriPlaylistsChallenge.Infrastructure.ApiResponseModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SiagriPlaylistsChallenge.Domain.Contracts
 {
-    public interface IWeatherFinder<T>
+    public interface IWeatherFinder
     {
-        T GetWeatherData(string cityName);
+        WeatherData GetWeatherData(string cityName);
 
-        T GetWeatherData(double latitude, double longitude);
+        WeatherData GetWeatherData(double latitude, double longitude);
     }
 }

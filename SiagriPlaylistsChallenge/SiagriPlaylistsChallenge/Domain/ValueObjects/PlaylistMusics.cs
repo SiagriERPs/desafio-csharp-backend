@@ -1,5 +1,7 @@
 ﻿using SiagriPlaylistsChallenge.Domain.Contracts;
+using SiagriPlaylistsChallenge.Domain.Core;
 using SiagriPlaylistsChallenge.Framework.Core;
+using SiagriPlaylistsChallenge.Infrastructure.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,69 +10,65 @@ using System.Threading.Tasks;
 namespace SiagriPlaylistsChallenge.Domain.ValueObjects
 {
     /// <summary>
-    /// The main domain logic for the whole app architecture commes from this 
-    /// object and because of that, most of the domain logic is self contain within
-    /// this V.O
+    /// The main idea was to keep the domain logic self contained within
+    /// the Value Objects and entities
+    /// but I had a bit of a hard time with C# serialization and deserialization
+    /// wich in the end made the concept a bit messy.
+    /// bit with a bit of getting used to again with C# this could be reused
     /// </summary>
-    /// <summary>
-    /// Aqui é a lógica principal do serviço
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class PlaylistMusics<T> : ValueObject<PlaylistMusics<T>>
+    public class PlaylistMusics : ValueObject<PlaylistMusics>
     {
-        public List<T> Value { get; set; }
+        public PlaylistDTO Value { get; set; }
 
-        public IWeatherFinder<double> WeatherFinder { get; set; }
+        public IWeatherFinder WeatherFinder { get; set; }
 
-        /// <summary>
-        /// Dentro do V.O decidi deixar o K como string, pois sabemos que 
-        /// o parametro para achar a playlist vai ser um genero string
-        /// </summary>
-        public IPlaylistGenerator<T, string> Generator { get; }
+ 
+        public IPlaylistGenerator Generator { get; }
 
 
-        internal PlaylistMusics(List<T> value)
+        internal PlaylistMusics(PlaylistDTO value)
         {
             Value = value;
         }
 
 
-        public static PlaylistMusics<T> CreatePlaylistFromCityName(string city, IWeatherFinder<double> weatherFinder, IPlaylistGenerator<T, string> generator)
+        public static PlaylistMusics CreatePlaylistFromCityName(string city, IWeatherFinder weatherFinder, IPlaylistGenerator generator)
         {
-            double temperature = weatherFinder.GetWeatherData(city);
+            var temperature = weatherFinder.GetWeatherData(city);
           
 
-            string genre = CoolExaustiveSwitch(temperature);
+            string genre = CoolExaustiveSwitch(temperature.Temperature.Degree);
 
-            List<T> value = generator.GetPlaylistMusics(genre);
+           
 
-            return new PlaylistMusics<T>(value);
+            PlaylistDTO value = generator.GetPlaylistMusics(genre);
+
+            return new PlaylistMusics(value);
         }
 
        
 
-        public static PlaylistMusics<T> CreatePlaylistFromLatAndLon(double latitude, double longitude, IWeatherFinder<double> weatherFinder, IPlaylistGenerator<T, string> generator)
+        public static PlaylistMusics CreatePlaylistFromLatAndLon(double latitude, double longitude, IWeatherFinder weatherFinder, IPlaylistGenerator generator)
         {
-            double temperature = weatherFinder.GetWeatherData(latitude, longitude);
-            
+            var temperature = weatherFinder.GetWeatherData(latitude, longitude);
 
-            string genre = CoolExaustiveSwitch(temperature);
+            string genre = CoolExaustiveSwitch(temperature.Temperature.Degree);
 
-            List<T> value = generator.GetPlaylistMusics(genre);
+            PlaylistDTO value = generator.GetPlaylistMusics(genre);
 
-            return new PlaylistMusics<T>(value);
+            return new PlaylistMusics(value);
 
         }
 
 
-        private static string CoolExaustiveSwitch(double value)
+        public static string CoolExaustiveSwitch(double value)
         {
             string resolve = value switch
             {
-                > 30 => "Party",
-                > 15 => "Pop",
-                > 10 => "Rock",
-                _ => "Classical",
+                > 30 => "party",
+                > 15 => "pop",
+                > 10 => "rock",
+                _ => "classical",
             };
 
             return resolve;

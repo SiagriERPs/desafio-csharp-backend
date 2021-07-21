@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+// Not used in the final project
 namespace SiagriPlaylistsChallenge.Domain.Core
 {
     /// <summary>

@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiagriPlaylistsChallenge", "SiagriPlaylistsChallenge\SiagriPlaylistsChallenge.csproj", "{AFC28F99-3F8B-4A23-8C3D-A6C8EE9CDD42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiagriPlaylistsChallenge", "SiagriPlaylistsChallenge\SiagriPlaylistsChallenge.csproj", "{AFC28F99-3F8B-4A23-8C3D-A6C8EE9CDD42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiagriPlaylistsChallenge.Tests", "SiagriPlaylistsChallenge.Tests\SiagriPlaylistsChallenge.Tests.csproj", "{26829EA5-FA25-45F1-83D2-44BEDA85F5CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiagriPlaylistsChallenge.Tests", "SiagriPlaylistsChallenge.Tests\SiagriPlaylistsChallenge.Tests.csproj", "{26829EA5-FA25-45F1-83D2-44BEDA85F5CD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFC28F99-3F8B-4A23-8C3D-A6C8EE9CDD42} = {AFC28F99-3F8B-4A23-8C3D-A6C8EE9CDD42}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
