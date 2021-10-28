@@ -18,7 +18,7 @@ A [Aliare](https://www.aliare.co/) é a maior empresa TECH AGRO do Brasil. Somos
 
 Nascemos do legado de três grandes empresas: Siagri, Datacoper e BTG, movidas pelo desejo de transformar o agronegócio do futuro.
 
-#tudo que o agro precisa logo ali
+# tudo que o agro precisa logo ali
 
 
 # O desafio
