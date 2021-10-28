@@ -1,4 +1,4 @@
-# Desafio Backend Siagri
+# Desafio Backend Aliare
 
 Quer fazer parte da transformação do campo ~~escrevendo~~ codando o futuro do agronegócio?
 
@@ -12,12 +12,13 @@ Se deseja participar do nosso processo seletivo, siga as instruções deste desa
 
   
 
-# Sobre a Siagri
+# Sobre a Aliare
 
-O [Grupo Siagri](https://www.siagri.com.br/) está entre as maiores empresas de software para agronegócio do país. Nascemos no agro e somos especialistas em levar tecnologia para gestão de empresas e propriedades rurais.
+A [Aliare](https://www.aliare.co/) é a maior empresa TECH AGRO do Brasil. Somos a plataforma de cooperação do agronegócio, conectando pessoas, ferramentas e empresas para transformar tempo em produtividade. Existimos para que todos os agentes da cadeia produtiva tenham informações certas, no tempo certo.
 
-Estamos com nossos clientes, pra fazer o campo acontecer. Temos orgulho de ajudar a construir o presente e o futuro do agronegócio.
+Nascemos do legado de três grandes empresas: Siagri, Datacoper e BTG, movidas pelo desejo de transformar o agronegócio do futuro.
 
+#tudo que o agro precisa logo ali
 
 
 # O desafio
