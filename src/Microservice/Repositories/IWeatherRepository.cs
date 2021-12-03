@@ -2,9 +2,9 @@
 using Microservice.Responses;
 using System.Threading.Tasks;
 
-namespace Microservice.Services
+namespace Microservice.Repositories
 {
-    public interface IWeatherService
+    public interface IWeatherRepository
     {
         Task<Response<WeatherDto>> GetCurrentTemperature(string city);
         Task<Response<WeatherDto>> GetCurrentTemperature(decimal latitude, decimal longitude);

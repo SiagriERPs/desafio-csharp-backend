@@ -7,6 +7,6 @@ namespace Microservice.Services
 {
     public interface IMusicService
     {
-        Task<Response<MusicDto>> GetMusicsByGenre(string genre);
+        Task<Response<MusicDto>> GetMusicsByTemperature(decimal temperature);
     }
 }

@@ -19,5 +19,6 @@ namespace Microservice.Responses
         public int StatusCode { get; set; }
         public string Error { get; set; }
         public T Data { get; set; }
+        public bool IsSuccessStatusCode => StatusCode >= StatusCodes.Status200OK && StatusCode < StatusCodes.Status300MultipleChoices;
     }
 }

@@ -1,4 +1,10 @@
-﻿using Microservice.Services;
+﻿using Microservice.Dtos;
+using Microservice.Filters;
+using Microservice.Helpers.Enums;
+using Microservice.Helpers.Extensions;
+using Microservice.Repositories;
+using Microservice.Responses;
+using Microservice.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,34 +14,52 @@ namespace Microservice.Controllers
     [Route("api/[controller]")]
     public class RecomendationsController : ControllerBase
     {
-        private readonly IWeatherService _weatherService;
+        private readonly IWeatherRepository _weatherRepository;
         private readonly IMusicService _musicService;
 
-        public RecomendationsController(IWeatherService weatherService, IMusicService musicService)
+        public RecomendationsController(IWeatherRepository weatherRepository, IMusicService musicService)
         {
-            _weatherService = weatherService;
+            _weatherRepository = weatherRepository;
             _musicService = musicService;
         }
 
         /// <summary>
         /// Retornar recomendações de música com base na cidade informada e sua temperatura atual
         /// </summary>
-        /// <param name="city"></param>
+        /// <param name="city">Nome da cidade</param>
         /// <returns></returns>
-        [HttpGet("temperature/{city}")]
-        public async Task<IActionResult> GetRecomendations(string city)
+        [HttpGet("{city}")]
+        public async Task<IActionResult> GetRecomendationsByCity(string city)
         {
-            var weather = await _weatherService.GetCurrentTemperature(city);
+            var weather = await _weatherRepository.GetCurrentTemperature(city);
+            if (!weather.IsSuccessStatusCode)
+                return StatusCode(weather.StatusCode, weather);
 
-            return StatusCode(weather.StatusCode, weather);
+            decimal temperature = weather.Data.main.temp;
+
+            var musicResponse = await _musicService.GetMusicsByTemperature(temperature);
+
+            return StatusCode(musicResponse.StatusCode, musicResponse);
         }
 
-        [HttpGet("musics/{genre}")]
-        public async Task<IActionResult> GetMusicByGenre(string genre)
+        /// <summary>
+        /// Retornar recomendações de música com base na latitude e longitude informada e sua temperatura atual
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetRecomendations([FromQuery] WeatherFilter filter)
         {
-            var musics = await _musicService.GetMusicsByGenre(genre);
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-            return Ok(musics);
+            var weather = await _weatherRepository.GetCurrentTemperature(filter.Latitude.Value, filter.Longitude.Value);
+            if (!weather.IsSuccessStatusCode)
+                return StatusCode(weather.StatusCode, weather);
+
+            decimal temperature = weather.Data.main.temp;
+
+            var musicResponse = await _musicService.GetMusicsByTemperature(temperature);
+
+            return StatusCode(musicResponse.StatusCode, musicResponse);
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿using Microservice.Dtos;
+using Microservice.Helpers.Enums;
+using Microservice.Helpers.Extensions;
+using Microservice.Repositories;
 using Microservice.Responses;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,49 +16,25 @@ namespace Microservice.Services
 {
     public class MusicService : IMusicService
     {
-        private readonly HttpClient _httpClient;
-        private static string token = string.Empty;
+        private readonly IMusicRepository _musicRepository;
 
-        private readonly string _authBaseUrl = "https://accounts.spotify.com/api/token";
-        private readonly string _baseUrl = "https://api.spotify.com/v1";
-
-        private const string CLIENT_ID = "CLIENT_ID";
-        private const string CLIENT_SECRET = "CLIENT_SECRET";
-
-        public MusicService(HttpClient httpClient)
+        public MusicService(IMusicRepository musicRepository)
         {
-            _httpClient = httpClient;
+            _musicRepository = musicRepository;
         }
 
-        private async Task<bool> GetToken()
+        public async Task<Response<MusicDto>> GetMusicsByTemperature(decimal temperature)
         {
-            var clientId = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{CLIENT_ID}:{CLIENT_SECRET}"));
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", clientId);
-
-            var form = new FormUrlEncodedContent(
-                new Dictionary<string, string> { { "grant_type", "client_credentials" } });
-            var response = await _httpClient.PostAsync(_authBaseUrl, form);
-            if (response.IsSuccessStatusCode)
-            {
-                var authObject = await response.Content.ReadFromJsonAsync<AuthSpotifyResponse>();
-                token = authObject.access_token;
-            }
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<Response<MusicDto>> GetMusicsByGenre(string genre)
-        {
-            string uri = $"{_baseUrl}/search?query={genre}&type=track";
-
-            await GetToken();
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var musicResponse = await _httpClient.GetAsync(uri);
-            if(musicResponse.IsSuccessStatusCode)
-                return new Response<MusicDto>(await musicResponse.Content.ReadFromJsonAsync<MusicDto>());
-            string response = await musicResponse.Content.ReadAsStringAsync();
-            return new Response<MusicDto>();
+            Response<MusicDto> musicResponse;
+            if (temperature > 30)
+                musicResponse = await _musicRepository.GetMusicsByGenre(EMusicGenre.Party.GetDescription());
+            else if (temperature >= 15 && temperature <= 30)
+                musicResponse = await _musicRepository.GetMusicsByGenre(EMusicGenre.Pop.GetDescription());
+            else if (temperature >= 10 && temperature <= 14)
+                musicResponse = await _musicRepository.GetMusicsByGenre(EMusicGenre.Rock.GetDescription());
+            else
+                musicResponse = await _musicRepository.GetMusicsByGenre(EMusicGenre.Classical.GetDescription());
+            return musicResponse;
         }
     }
 }

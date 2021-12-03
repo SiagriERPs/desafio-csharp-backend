@@ -4,16 +4,16 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Microservice.Services
+namespace Microservice.Repositories
 {
-    public class WeatherService : IWeatherService
+    public class WeatherRepository
     {
         private readonly HttpClient _httpClient;
-        private const string API_KEY = "API_KEY";
+        private const string API_KEY = "3fb119eaffb1455f181dcda2c7ee9b1d";
 
         private readonly string _baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 
-        public WeatherService(
+        public WeatherRepository(
             HttpClient httpClient)
         {
             _httpClient = httpClient;
