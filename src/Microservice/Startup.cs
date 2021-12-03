@@ -35,7 +35,8 @@ namespace Microservice
 
             services.AddScoped<IMusicService, MusicService>();
             services.AddHttpClient<WeatherRepository>()
-                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(10, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp))));
+                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(10, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp))))
+                .AddTransientHttpErrorPolicy(builder => builder.CircuitBreakerAsync(3, TimeSpan.FromSeconds(15)));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
