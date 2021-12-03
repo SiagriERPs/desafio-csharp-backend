@@ -1,3 +1,4 @@
+using Microservice.Repositories;
 using Microservice.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,9 +30,12 @@ namespace Microservice
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IWeatherService, WeatherService>();
+            services.AddTransient<IWeatherRepository, WeatherRepository>();
+            services.AddTransient<IMusicRepository, SpotifyRepository>();
+
             services.AddScoped<IMusicService, MusicService>();
-            services.AddHttpClient<WeatherService>();
+            services.AddHttpClient<WeatherRepository>()
+                .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(10, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp))));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

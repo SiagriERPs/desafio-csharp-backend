@@ -19,8 +19,8 @@ namespace Microservice.Repositories
         private readonly string _authBaseUrl = "https://accounts.spotify.com/api/token";
         private readonly string _baseUrl = "https://api.spotify.com/v1";
 
-        private const string CLIENT_ID = "cc5cae51be7c4d228cdd33c36457c0c1";
-        private const string CLIENT_SECRET = "09898e59b7ce42ed858048030139e5c4";
+        private const string CLIENT_ID = "CLIENT_ID";
+        private const string CLIENT_SECRET = "CLIENT_SECRET";
 
         public SpotifyRepository(HttpClient httpClient)
         {
