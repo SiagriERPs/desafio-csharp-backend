@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Microservice.Repositories
 {
-    public class MusicRespository : IMusicRepository
+    public class SpotifyRepository : IMusicRepository
     {
         private readonly HttpClient _httpClient;
         private static string token = string.Empty;
@@ -22,7 +22,7 @@ namespace Microservice.Repositories
         private const string CLIENT_ID = "cc5cae51be7c4d228cdd33c36457c0c1";
         private const string CLIENT_SECRET = "09898e59b7ce42ed858048030139e5c4";
 
-        public MusicRespository(HttpClient httpClient)
+        public SpotifyRepository(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
