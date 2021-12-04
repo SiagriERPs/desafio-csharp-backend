@@ -9,7 +9,7 @@ namespace Microservice.Repositories
     public class WeatherRepository : IWeatherRepository
     {
         private readonly HttpClient _httpClient;
-        private const string API_KEY = "API_KEY";
+        private const string API_KEY = "";
 
         private readonly string _baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 
